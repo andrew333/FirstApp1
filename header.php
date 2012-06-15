@@ -25,7 +25,7 @@ IncludeTemplateLangFile(__FILE__);
 </script>
 
 <script type="text/javascript" src="<?=SITE_TEMPLATE_PATH?>/js/jquery-1.6.1.min.js"></script>
-<script type="text/javascript" src="<?=SITE_TEMPLATE_PATH?>/js/77777777common.js"></script>
+<script type="text/javascript" src="<?=SITE_TEMPLATE_PATH?>/js/77777777common123456.js"></script>
 
 <script type="text/javascript" src="<?=SITE_TEMPLATE_PATH?>/js/scrollpane/jquery.jscrollpane.min.js"></script>
 <script type="text/javascript" src="<?=SITE_TEMPLATE_PATH?>/js/scrollpane/jquery.mousewheel.js"></script>
@@ -34,12 +34,6 @@ IncludeTemplateLangFile(__FILE__);
 <!--script type="text/javascript" src="<?=SITE_TEMPLATE_PATH?>/js/jquery.cycle.all.min.js"></script-->
 <script type="text/javascript" src="<?=SITE_TEMPLATE_PATH?>/js/cycle.js"></script>
 <!-- / cycle -->
-
-<!-- functions -->
-<script type="text/javascript" src="<?=SITE_TEMPLATE_PATH?>/js/functions.js"></script>
-<!-- / functions -->
-
-<!--[if lt IE 7]><script type="text/javascript" src="<?=SITE_TEMPLATE_PATH?>/js/unitpngfix.js"></script><![endif]-->
 
 </head>
 
@@ -108,59 +102,19 @@ IncludeTemplateLangFile(__FILE__);
         false
     );?> 
     
-    <!-- 1 ДИЗАЙН ИНТЕРЬЕРА   --> 
-    <div id="interior_outer" class="info_outer"> 
-  	   	<div id="interior_panel" class="info_wrapper">
-			<div class="text_title"> <?=$GLOBALS["AR_TOP_MENU"]["interior"]["NAME"]?> </div>
+    <!-- 2 АРХИТЕКТУРА  --> 
+    <div id="arch_outer" class="info_outer"> 
+  	   	<div id="arch_panel" class="info_wrapper">
+			<div class="text_title"> <?=$GLOBALS["AR_TOP_MENU"]["arch"]["NAME"]?> </div>
 			<div class="cb"></div> 
-			<div id="interior_pane" class="info_text scroll-pane">
-                <?=$GLOBALS["AR_TOP_MENU"]["interior"]["DESCRIPTION"]?>
+			<div id="arch_pane" class="info_text scroll-pane">
+                <?=$GLOBALS["AR_TOP_MENU"]["arch"]["DESCRIPTION"]?>                
 			</div>
 			<div class="fr but_scroll_up_wrapper"><img  class="but_scroll_up" src="/bitrix/templates/main/images/up_white.png" width="10" height="5" alt="up" /></div>
 			<div class="fr but_scroll_down_wrapper"><img  class="but_scroll_down" src="/bitrix/templates/main/images/down_white.png"  width="10" height="5" alt="down"  /></div>
 			<!-- / down_white.png -->
 		</div>
-    </div>  <!-- / id="interior_outer" --> 
-    
-    
-    <!-- 3 О НАС  --> 
-    <div id="aboutus_outer" class="info_outer"> 
-  	   	<div id="aboutus_panel" class="info_wrapper">
-			
-			<div class="text_title"><?=GetMessage(CUR_UP_LANG."_INFOPANEL_ABOUTUS_NAME")?></div> 
-			<div class="cb"></div> 
-			<div id="aboutus_pane" class="info_text scroll-pane">
-				<?$APPLICATION->IncludeComponent(
-					"bitrix:main.include", "",	
-					Array(
-						"AREA_FILE_SHOW" => "sect",
-						"AREA_FILE_SUFFIX" => "aboutus",
-						"AREA_FILE_RECURSIVE" => "Y",
-						"EDIT_TEMPLATE" => "")
-					);
-				?>
-  			</div>
-			<div class="fr but_scroll_up_wrapper"><img  class="but_scroll_up" src="/bitrix/templates/main/images/up_white.png" width="10" height="5" alt="up" /></div>
-			<div class="fr but_scroll_down_wrapper"><img  class="but_scroll_down" src="/bitrix/templates/main/images/down_white.png"  width="10" height="5" alt="down"  /></div>
-			<!-- / down_white.png -->
-			
-			<div class="cb"></div>
-			
-			<div class="fr aboutus_address">
-				<?$APPLICATION->IncludeComponent(
-					"bitrix:main.include", "",	
-					Array(
-						"AREA_FILE_SHOW" => "sect",
-						"AREA_FILE_SUFFIX" => "aboutus_address",
-						"AREA_FILE_RECURSIVE" => "Y",
-						"EDIT_TEMPLATE" => "")
-					);
-				?>
-			</div>
-			
-		</div>
-    </div>  <!-- / id="info_aboutus"  --> 
-    
+    </div>  <!-- / id="arch_outer" --> 
         
 <?
 //------------------------  START SECTION TEXT ----------------------------//
@@ -175,21 +129,13 @@ endif;
 
 $aboutus_name = GetMessage(CUR_UP_LANG."_INFOPANEL_ABOUTUS_NAME");
 # Текст - О нас
-
-
-ob_start();
-
-
+ob_s____tart();
     $APPLICATION->IncludeComponent(
         "bitrix:main.include", "",	
         Array(
-        	"AREA_FILE_SHOW" => "secti-------------",
-        	"AREA_FILE_SUFFIX" => "aboutus",
-        	"AREA_FILE_RECURSIVE" => "Y",
-        	"EDIT_TEMPLATE" => "")
+        	"AREA_FILE_SHOW" => "sect",
+
     );
-    
-    
 $aboutus_text = ob_get_contents();
 ob_end_clean();
 
@@ -232,8 +178,18 @@ if(!empty( $_REQUEST["PROJECT_ID"] )):
         $sec_block_text = $GLOBALS["AR_TOP_MENU"][$act_top_sec_code]["DESCRIPTION"];
     endif;
     
-
-
+# Если в разделе BOTTOM_SECTION - проверяем его описание    
+elseif(!empty( $_REQUEST["BOTTOM_SECTION"] )):  
+  
+    if(!empty($GLOBALS["AR_BOTTOM_MENU"]["BOTTOM_SECTION_DESCR"])): 
+        $sec_block_name = $GLOBALS["AR_BOTTOM_MENU"]["BOTTOM_SECTION_DESCR"]["NAME"];
+        $sec_block_text = $GLOBALS["AR_BOTTOM_MENU"]["BOTTOM_SECTION_DESCR"]["TEXT"];
+        
+    # Выводим описание interior или arch
+    else:
+        $sec_block_name = $GLOBALS["AR_TOP_MENU"][$act_top_sec_code]["NAME"];
+        $sec_block_text = $GLOBALS["AR_TOP_MENU"][$act_top_sec_code]["DESCRIPTION"];
+    endif;
 # Если в разделе TOP_SECTION - interior или arch
 elseif(!empty( $_REQUEST["TOP_SECTION"] )):
    $sec_block_name = $GLOBALS["AR_TOP_MENU"][$act_top_sec_code]["NAME"];
@@ -292,7 +248,28 @@ endif;
    
     
     <div class="firm_name_outer shadow">
-    
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<?/** global $USER;?>
+<?if($USER->IsAdmin()):?>
+	<span>12345 123456 12345678910</span>
+<?else:?>
+
+	<!--span>12345 123456 12345678910</span-->
+	<span>хорхе тофало архитекторы</span>
+<?endif;*/?>
 
 		<span>хорхе тофало архитекторы</span>		
 	</div>     
